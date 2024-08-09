@@ -44,6 +44,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 
     // Springdoc OpenAPI 의존성 추가 (API 문서화 및 Swagger UI)
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
