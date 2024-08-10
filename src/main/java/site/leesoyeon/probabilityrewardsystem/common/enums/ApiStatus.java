@@ -50,7 +50,7 @@ public enum ApiStatus {
     NO_PERMISSION(403, "NP", "권한이 없습니다."),
 
     // 404 - Not Found : 잘못된 리소스 접근
-    NOT_FOUND_ACCOUNT(404, "NFA", "존재하지 않는 계정입니다."),
+    NOT_FOUND_USER(404, "NFA", "존재하지 않는 계정입니다."),
     NOT_FOUND_POST(404, "NFP", "게시글이 존재하지 않습니다."),
     NOT_FOUND_FILE(404, "NFF", "파일이 존재하지 않습니다."),
     NOT_FOUND_REDIS_KEY(404, "NFRK", "존재하지 않는 REDIS KEY 입니다."),
