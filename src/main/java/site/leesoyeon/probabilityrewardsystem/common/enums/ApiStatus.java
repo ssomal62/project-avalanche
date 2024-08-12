@@ -17,7 +17,6 @@ public enum ApiStatus {
     DUPLICATE_TEL_NUMBER(400, "DT", "중복된 전화번호입니다."),
     NOT_EXISTED_USER(400, "NU", "존재하지 않는 사용자입니다."),
     NOT_EXISTED_CONTENT(400, "NB", "존재하지 않는 게시물입니다."),
-
     INVALID_INPUT_VALUE(400, "IIV", "입력 값이 잘못되었습니다."),
     INVALID_TYPE_VALUE(400, "ITV", "요청 타입이 잘못되었습니다."),
     INVALID_USER_ROLE(400, "IUR", "존재하지 않는 권한입니다."),
@@ -29,6 +28,8 @@ public enum ApiStatus {
     NOT_ALLOWED_EMPTY_DETAIL_CATEGORY(400, "NAEDC", "상세카테고리를 입력해주세요."),
     NOT_ALLOWED_EMPTY_DATE(400, "NAED", "날짜를 입력해주세요."),
     DEFAULT_ADDRESS_ALREADY_EXISTS(400, "DAAE", "이미 등록된 기본 주소가 있습니다."),
+    SAME_AS_OLD_PASSWORD(400, "SAOP", "새 비밀번호는 기존 비밀번호와 동일할 수 없습니다."),
+    CLIENT_ID_NULL_OR_EMPTY(400, "CINOE", "클라이언트 ID는 null이거나 비어 있을 수 없습니다."),
 
     // 401 - Unauthorized : 비인증(인증 수단이 없음)
     SIGN_IN_FAIL(401, "SF", "로그인 실패하였습니다."),
@@ -37,6 +38,11 @@ public enum ApiStatus {
     INVALID_ID_OR_PW(401, "IIP", "아이디 혹은 비밀번호가 틀렸습니다."),
     INVALID_AUTH_ERROR(401, "IAE", "지원 되지 않거나 잘못된 인증 수단입니다."),
     INVALID_EMAIL_VERIFICATION_CODE(401, "IEVC", "이메일 인증 코드가 일치하지 않습니다."),
+    REFRESH_TOKEN_NOT_FOUND(401, "RTNF", "리프레시 토큰을 찾을 수 없습니다."),
+    INVALID_JWT_SIGNATURE(401, "IJS", "유효하지 않은 JWT 서명입니다."),
+    UNSUPPORTED_JWT_TOKEN(401, "UJT", "지원되지 않는 JWT 토큰입니다."),
+    INVALID_JWT_TOKEN(401, "IJT", "유효하지 않은 JWT 토큰입니다."),
+    EXPIRED_JWT_TOKEN(401, "EJT", "만료된 JWT 토큰입니다."),
 
     // 403 - Forbidden : 권한 없음 (서버가 요청을 이해했지만 승인을 거부)
     NOT_POST_OWNER(403, "NPO", "해당 게시글의 소유자가 아닙니다."),
@@ -46,6 +52,7 @@ public enum ApiStatus {
     EMAIL_ALREADY_SENT(403, "EAS", "이미 이메일이 전송되었습니다. 3분 후에 다시 시도해주세요."),
     BLACKLISTED_TOKEN(403, "BT", "무효화된 토큰"),
     EXPIRED_TOKEN(403, "ET", "만료된 토큰"),
+    INVALID_TOKEN(403, "IT", "잘못된 토큰"),
     EXPIRED_REFRESH_TOKEN(403, "ERT", "리프레시 토큰 만료"),
     NO_PERMISSION(403, "NP", "권한이 없습니다."),
 
@@ -78,7 +85,10 @@ public enum ApiStatus {
     DATABASE_ERROR(500, "DBE", "데이터베이스 오류"),
     FAIL_TO_SEND_EMAIL(500, "FTSE", "이메일 전송 실패"),
     FAILED_TO_UPLOAD_FILE(500, "FTUF", "파일 업로드 실패"),
-    FAILED_HTTP_ACTION(500, "FHA", "HTTP 요청 실패");
+    FAILED_HTTP_ACTION(500, "FHA", "HTTP 요청 실패"),
+    EMAIL_SEND_FAILURE(500, "ESF", "이메일 전송 중 오류가 발생했습니다."),
+    EMAIL_VERIFICATION_FAILURE(500, "EVF", "이메일 인증 중 오류가 발생했습니다."),
+    SOCKET_TIMEOUT(500, "STO", "소켓 타임아웃 오류로 인해 이메일 전송에 실패했습니다.");
 
     private final int statusCode;
     private final String code;
