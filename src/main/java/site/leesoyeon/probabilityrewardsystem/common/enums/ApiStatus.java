@@ -61,6 +61,7 @@ public enum ApiStatus {
     NOT_FOUND_POST(404, "NFP", "게시글이 존재하지 않습니다."),
     NOT_FOUND_FILE(404, "NFF", "파일이 존재하지 않습니다."),
     NOT_FOUND_REDIS_KEY(404, "NFRK", "존재하지 않는 REDIS KEY 입니다."),
+    NOT_FOUND_PRODUCT(404, "NFR", " 존재하지 않는 상품입니다."),
 
     // 405 - Method Not Allowed
     METHOD_NOT_ALLOWED(405, "MNA", "허용되지 않는 HTTP 메서드입니다."),
