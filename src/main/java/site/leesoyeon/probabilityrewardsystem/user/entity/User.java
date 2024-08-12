@@ -3,7 +3,7 @@ package site.leesoyeon.probabilityrewardsystem.user.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnTransformer;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 import site.leesoyeon.probabilityrewardsystem.common.BaseTimeEntity;
 import site.leesoyeon.probabilityrewardsystem.user.enums.UserRole;
 import site.leesoyeon.probabilityrewardsystem.user.enums.UserStatus;
@@ -19,8 +19,7 @@ import java.util.UUID;
 public class User extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @UuidGenerator
     @Column(name = "user_id", updatable = false, nullable = false)
     private UUID userId;
 
