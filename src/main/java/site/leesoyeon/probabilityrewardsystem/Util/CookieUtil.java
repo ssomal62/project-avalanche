@@ -1,4 +1,4 @@
-package site.leesoyeon.probabilityrewardsystem.Util;
+package site.leesoyeon.probabilityrewardsystem.util;
 
 import org.springframework.http.ResponseCookie;
 
