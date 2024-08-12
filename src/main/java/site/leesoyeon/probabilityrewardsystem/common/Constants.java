@@ -32,7 +32,11 @@ package site.leesoyeon.probabilityrewardsystem.common;
     public static final String MAILER_SUBTYPE = "HTML";
     public static final int VERIFICATION_CODE_LENGTH = 6;
     public static final Long VERIFICATION_CODE_EXPIRE_TIME = 60 * 3L; // 3분
+    public static final Long EMAIL_VERIFICATION_TOKEN_EXPIRE_TIME = 3600 * 1000L;
     public static final Long WHITE_LIST_VERIFIED_TIME = 60 * 60 * 24L; // 1일
+
+    // Client
+    public static final String CLIENT_ID_HEADER = "Client-Id";
 
     // 캐시
     public static final String CACHE_KEY_PREFIX = "CACHE::";
