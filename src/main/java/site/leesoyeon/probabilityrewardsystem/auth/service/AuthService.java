@@ -31,7 +31,7 @@ import site.leesoyeon.probabilityrewardsystem.user.service.UserService;
 
 import java.util.concurrent.CompletableFuture;
 
-import static site.leesoyeon.probabilityrewardsystem.Util.CookieUtil.createCookie;
+import static site.leesoyeon.probabilityrewardsystem.util.CookieUtil.createCookie;
 import static site.leesoyeon.probabilityrewardsystem.common.Constants.*;
 import static site.leesoyeon.probabilityrewardsystem.common.enums.ApiStatus.*;
 import static site.leesoyeon.probabilityrewardsystem.user.enums.UserStatus.DELETED;
