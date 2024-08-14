@@ -31,7 +31,7 @@ public record ProductUpdateRequest(
         String categoryName,
 
         @Min(value = 0, message = "수량은 0 이상이어야 합니다.")
-        Integer quantity,
+        Integer stock,
 
         String imageUrl,
 

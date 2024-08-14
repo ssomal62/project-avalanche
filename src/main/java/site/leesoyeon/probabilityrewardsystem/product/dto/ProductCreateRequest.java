@@ -30,7 +30,7 @@ public record ProductCreateRequest(
 
         @NotNull(message = "수량은 필수 입력 항목입니다.")
         @Min(value = 0, message = "수량은 0 이상이어야 합니다.")
-        Integer quantity,
+        Integer stock,
 
         String imageUrl,
 

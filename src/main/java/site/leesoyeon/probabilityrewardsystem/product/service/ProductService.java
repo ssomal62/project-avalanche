@@ -1,7 +1,5 @@
 package site.leesoyeon.probabilityrewardsystem.product.service;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,9 +28,6 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Transactional
     public UUID createProduct(ProductCreateRequest request) {
         Product product = productMapper.toEntity(request);
@@ -40,14 +35,12 @@ public class ProductService {
         return savedProduct.getProductId();
     }
 
-//    @Cacheable(value = "product", key = "#id")
     @Transactional(readOnly = true)
     public ProductDetailResponse getProduct(UUID id) {
         Product product = findById(id);
         return productMapper.toDetailResponse(product);
     }
 
-//    @Cacheable(value = "productList")
     @Transactional(readOnly = true)
     public ProductListResponse getProductList() {
         List<Product> products = productRepository.findAll();
@@ -67,7 +60,6 @@ public class ProductService {
     public void deactivateProduct(UUID id) {
         Product product = findById(id);
         product.updateStatus(ProductStatus.DISCONTINUED);
-
     }
 
 //     ============================================
@@ -77,5 +69,4 @@ public class ProductService {
     private Product findById(UUID id) {
         return productRepository.findById(id).orElseThrow(() -> new ProductException(NOT_FOUND_PRODUCT));
     }
-
 }
