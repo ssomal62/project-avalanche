@@ -44,7 +44,9 @@ public class SecurityConfig {
                                 "/api/v1/auth/sign-in",
                                 "/api/v1/auth/send-verification/**",
                                 "/api/v1/auth/verify/**",
-                                "/api/v1/product/**"
+                                "/api/v1/product/**",
+                                "/api/v1/order/**",
+                                "/api/v1/shipping/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .logout(logout -> logout
