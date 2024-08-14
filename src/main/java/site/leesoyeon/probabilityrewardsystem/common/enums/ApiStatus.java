@@ -59,9 +59,11 @@ public enum ApiStatus {
     // 404 - Not Found : 잘못된 리소스 접근
     NOT_FOUND_USER(404, "NFA", "존재하지 않는 계정입니다."),
     NOT_FOUND_POST(404, "NFP", "게시글이 존재하지 않습니다."),
+    NOT_FOUND_ORDER(404, "NFP", "주문정보가 존재하지 않습니다."),
     NOT_FOUND_FILE(404, "NFF", "파일이 존재하지 않습니다."),
     NOT_FOUND_REDIS_KEY(404, "NFRK", "존재하지 않는 REDIS KEY 입니다."),
     NOT_FOUND_PRODUCT(404, "NFR", " 존재하지 않는 상품입니다."),
+    NOT_FOUND_SHIPPING_ADDRESS (404, "NFSA", " 존재하지 않는 배송지입니다."),
 
     // 405 - Method Not Allowed
     METHOD_NOT_ALLOWED(405, "MNA", "허용되지 않는 HTTP 메서드입니다."),
@@ -71,6 +73,7 @@ public enum ApiStatus {
     DUPLICATED_CATEGORY(409, "DC", "이미 등록된 카테고리 입니다."),
     LOCAL_ACCOUNT_ALREADY_EXIST(409, "LAE", "이미 등록된 계정입니다."),
     DELETED_ACCOUNT(409, "DA", "이미 탈퇴한 계정입니다."),
+    NOT_ENOUGH_STOCK(409, "NES", "재고가 부족합니다."),
 
     // 413 - Payload Too Large
     TOO_MANY_FILES(413, "TMF", "파일은 최대 3개만 업로드 할 수 있습니다."),
