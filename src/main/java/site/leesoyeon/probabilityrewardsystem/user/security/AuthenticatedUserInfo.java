@@ -11,6 +11,7 @@ import site.leesoyeon.probabilityrewardsystem.user.enums.UserRole;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.UUID;
 
 import static site.leesoyeon.probabilityrewardsystem.common.enums.ApiStatus.NOT_FOUND_USER;
 
@@ -40,8 +41,8 @@ import static site.leesoyeon.probabilityrewardsystem.common.enums.ApiStatus.NOT_
 public class AuthenticatedUserInfo implements UserDetails {
 
     private final User user;
-
-    private String email;
+    private final String email;
+    private final UUID userId;
 
     public AuthenticatedUserInfo(User user) {
         if (user == null) {
@@ -49,6 +50,7 @@ public class AuthenticatedUserInfo implements UserDetails {
         }
         this.user = user;
         this.email = user.getEmail();
+        this.userId = user.getUserId();
     }
 
     @Override
