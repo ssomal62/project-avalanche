@@ -35,10 +35,11 @@ public class OrderController {
      */
     @PostMapping
     public ResponseEntity<OrderContext> createOrder(@RequestBody OrderRequestDto orderRequest) {
-
         OrderContext initialContext = OrderContext.builder()
                 .userId(orderRequest.userId())
-                .orderItem(orderRequest.orderItem())
+                .quantity(orderRequest.quantity())
+                .transactionInfo(orderRequest.transactionInfo())
+                .productInfo(orderRequest.productInfo())
                 .shippingInfo(orderRequest.shippingInfo())
                 .build();
 

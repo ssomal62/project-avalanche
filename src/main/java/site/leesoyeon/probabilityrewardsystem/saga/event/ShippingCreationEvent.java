@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import site.leesoyeon.probabilityrewardsystem.saga.dto.OrderContext;
 import site.leesoyeon.probabilityrewardsystem.saga.state.SagaEventType;
 
-import static site.leesoyeon.probabilityrewardsystem.saga.state.SagaEventType.ORDER_COMPLETED;
+import static site.leesoyeon.probabilityrewardsystem.saga.state.SagaEventType.SHIPPING_CREATED;
 
 @Getter
 @RequiredArgsConstructor
-public class OrderCreationEvent implements SagaEvent {
-    private final SagaEventType eventType = ORDER_COMPLETED;
+public class ShippingCreationEvent implements SagaEvent {
+    private final SagaEventType eventType = SHIPPING_CREATED;
     private final OrderContext context;
 }

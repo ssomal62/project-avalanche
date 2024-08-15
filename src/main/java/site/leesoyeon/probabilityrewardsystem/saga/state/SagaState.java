@@ -8,6 +8,7 @@ public enum SagaState {
     COMPLETED("사가 완료"),
     FAILED("사가 실패"),
     POINT_DEDUCTED("포인트 차감 완료"),
+    POINT_REFUNDED("포인트 환불 완료"),
     INVENTORY_DEDUCTED("재고 차감 완료"),
     INVENTORY_DEPLETED("재고 부족"),
     ORDER_CREATED("주문 생성 완료"),

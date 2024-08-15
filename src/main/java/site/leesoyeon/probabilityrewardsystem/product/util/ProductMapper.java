@@ -15,6 +15,7 @@ import site.leesoyeon.probabilityrewardsystem.product.enums.Rarity;
 public interface ProductMapper {
 
     @Mapping(target = "productId", ignore = true)
+    @Mapping(target = "version", ignore = true)
     Product toEntity(ProductCreateRequest request);
 
     @Mapping(target = "productId", ignore = true)
