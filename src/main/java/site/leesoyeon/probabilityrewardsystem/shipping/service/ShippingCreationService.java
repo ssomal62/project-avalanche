@@ -26,6 +26,7 @@ public class ShippingCreationService {
             }
 
             Shipping shipping = shippingService.saveShipping(context.orderId(), context.shippingInfo());
+            log.info("배송지 생성 완료: {}", shipping.getShippingId());
             return context.shippingCreated(shipping.getShippingId());
         } catch (Exception e) {
             return context.fail("배송 생성 중 오류 발생: " + e.getMessage());
@@ -38,6 +39,7 @@ public class ShippingCreationService {
             if (context.shippingInfo() != null && context.shippingInfo().shippingId() != null) {
                 shippingService.deleteById(context.shippingInfo().shippingId());
             }
+            log.info("배송지 삭제가 완료되었습니다");
             return context.shippingCancelled();
         } catch (Exception e) {
             return context.fail("배송 취소 중 오류 발생: " + e.getMessage());
