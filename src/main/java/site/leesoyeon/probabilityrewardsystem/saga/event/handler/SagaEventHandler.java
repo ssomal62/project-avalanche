@@ -5,6 +5,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import site.leesoyeon.probabilityrewardsystem.saga.event.InventoryDeductionEvent;
 import site.leesoyeon.probabilityrewardsystem.saga.event.OrderCreationEvent;
+import site.leesoyeon.probabilityrewardsystem.saga.event.PointDeductionEvent;
+import site.leesoyeon.probabilityrewardsystem.saga.event.StepCompletedEvent;
 
 /**
  * {@code SagaEventHandler} 클래스는 사가(Saga) 패턴에서 발생하는 다양한 이벤트를 처리하는 역할을 합니다.
@@ -31,24 +33,27 @@ import site.leesoyeon.probabilityrewardsystem.saga.event.OrderCreationEvent;
 public class SagaEventHandler {
 
     /**
-     * 재고 차감 이벤트를 처리합니다.
-     *
-     * @param event 재고 차감이 성공적으로 완료되었음을 나타내는 이벤트
-     */
-    @EventListener
-    public void handleInventoryDeductionEvent(InventoryDeductionEvent event) {
-        log.info("재고 이벤트가 성공적으로 처리되었습니다: {}", event.getContext());
-        // 여기에 재고 차감 이벤트에 대한 추가 로직을 구현합니다.
-    }
-
-    /**
      * 주문 생성 이벤트를 처리합니다.
      *
      * @param event 주문 생성이 성공적으로 완료되었음을 나타내는 이벤트
      */
     @EventListener
     public void handleOrderCreationEvent(OrderCreationEvent event) {
-        log.info("주문 이벤트가 성공적으로 처리되었습니다 {}", event.getContext());
-        // 여기에 주문 생성 이벤트에 대한 추가 로직을 구현합니다.
+       log.info("주문 등록 완료로 후속 작업을 진행합니다. : {}", event.getContext());
+
+
+       log.info("후속 작업을 모두 완료하였습니다.");
+    }
+
+    @EventListener
+    public void handleInventoryDeductionEvent(InventoryDeductionEvent event) {}
+
+    @EventListener
+    public void handlePointDeductionEvent(PointDeductionEvent event) {}
+
+    @EventListener
+    public void handleStepCompletedEvent(StepCompletedEvent event) {
+        log.info("Step completed: {}, Saga State: {}, Success: {}",
+                event.getStepName(), event.getSagaState(), event.isSuccess());
     }
 }
