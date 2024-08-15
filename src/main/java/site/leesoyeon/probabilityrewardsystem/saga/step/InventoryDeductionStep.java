@@ -45,6 +45,11 @@ public class InventoryDeductionStep implements SagaStep<OrderContext> {
             return context;
         }
 
+        if (context.outOfStock()) {
+            log.info("재고 부족으로 인해 보상 작업이 생략되었습니다: {}", context.orderItem().productId());
+            return context;
+        }
+
         return transactionTemplate.execute(status -> {
             try {
                 OrderContext refundedContext = inventoryService.refundInventory(context);

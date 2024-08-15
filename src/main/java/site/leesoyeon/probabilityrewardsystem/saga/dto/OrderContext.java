@@ -8,6 +8,7 @@ import site.leesoyeon.probabilityrewardsystem.shipping.dto.ShippingInfo;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.function.Function;
 
 /**
  * {@code OrderContext}는 사가(Saga) 패턴에서 주문과 관련된 상태와 데이터를 저장하고 전달하는 데 사용됩니다.
@@ -44,6 +45,7 @@ public record OrderContext(
         ShippingInfo shippingInfo,
         LocalDateTime createdAt,
         SagaState state,
+        boolean outOfStock,
         boolean success,
         String errorMessage
 ) {
@@ -120,10 +122,11 @@ public record OrderContext(
                 .build();
     }
 
-    // 재고가 0이어서 작업이 중단될 때 호출
+    // 재고부족으로 작업이 중단될 때 호출
     public OrderContext inventoryDepleted(String errorMessage) {
         return this.toBuilder()
                 .state(SagaState.INVENTORY_DEPLETED)
+                .outOfStock(true)
                 .success(false)
                 .errorMessage(errorMessage)
                 .build();
@@ -155,5 +158,9 @@ public record OrderContext(
         return this.toBuilder()
                 .shippingInfo(null)
                 .build();
+    }
+
+    public OrderContext then(Function<OrderContext, OrderContext> nextStep) {
+        return nextStep.apply(this);
     }
 }
