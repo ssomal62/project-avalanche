@@ -62,11 +62,16 @@ public class ProductService {
         product.updateStatus(ProductStatus.DISCONTINUED);
     }
 
+    @Transactional
+    public void saveProduct(Product product) {
+        productRepository.save(product);
+    }
+
 //     ============================================
-//                  Private Methods
+//                 Protected Methods
 //     ============================================
 
-    private Product findById(UUID id) {
+    protected Product findById(UUID id) {
         return productRepository.findById(id).orElseThrow(() -> new ProductException(NOT_FOUND_PRODUCT));
     }
 }

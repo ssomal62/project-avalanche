@@ -6,28 +6,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.leesoyeon.probabilityrewardsystem.order.dto.OrderItem;
 import site.leesoyeon.probabilityrewardsystem.product.entity.Product;
-import site.leesoyeon.probabilityrewardsystem.product.exception.ProductException;
-import site.leesoyeon.probabilityrewardsystem.product.repository.ProductRepository;
-import site.leesoyeon.probabilityrewardsystem.product.util.ProductMapper;
 import site.leesoyeon.probabilityrewardsystem.saga.dto.OrderContext;
-
-import java.util.UUID;
-
-import static site.leesoyeon.probabilityrewardsystem.common.enums.ApiStatus.NOT_FOUND_PRODUCT;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class InventoryService {
 
-    private final ProductRepository productRepository;
-    private final ProductMapper productMapper;
+    private final ProductService productService;
 
     @Transactional
     public OrderContext deductInventory(OrderContext context) {
         try {
             OrderItem orderItem = context.orderItem();
-            Product product = findById(orderItem.productId());
+            Product product = productService.findById(orderItem.productId());
 
             if (product.getStock() < orderItem.quantity()) {
                 log.error("재고 부족: 제품 ID: {}, 요청 수량: {}, 현재 재고: {}",
@@ -37,7 +29,7 @@ public class InventoryService {
 
             int originalStock = product.getStock();
             product.reduceStock(orderItem.quantity());
-            productRepository.save(product);
+            productService.saveProduct(product);
 
             log.info("재고 감소 완료. 제품 ID: {}, 감소량: {}, 이전 재고: {}, 현재 재고: {}",
                     product.getProductId(), orderItem.quantity(), originalStock, product.getStock());
@@ -53,11 +45,11 @@ public class InventoryService {
     public OrderContext refundInventory(OrderContext context) {
         try {
             OrderItem orderItem = context.orderItem();
-            Product product = findById(orderItem.productId());
+            Product product = productService.findById(orderItem.productId());
 
             int originalStock = product.getStock();
             product.increaseStock(orderItem.quantity());
-            productRepository.save(product);
+            productService.saveProduct(product);
 
             log.info("보상 트랜잭션: 재고 증가 완료. 제품 ID: {}, 증가량: {}, 이전 재고: {}, 현재 재고: {}",
                     product.getProductId(), orderItem.quantity(), originalStock, product.getStock());
@@ -66,13 +58,5 @@ public class InventoryService {
         } catch (Exception e) {
             return context.fail("재고 증가 중 오류 발생: " + e.getMessage());
         }
-    }
-
-//     ============================================
-//                  Private Methods
-//     ============================================
-
-    private Product findById(UUID id) {
-        return productRepository.findById(id).orElseThrow(() -> new ProductException(NOT_FOUND_PRODUCT));
     }
 }

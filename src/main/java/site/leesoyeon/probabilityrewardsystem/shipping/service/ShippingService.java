@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.leesoyeon.probabilityrewardsystem.order.entity.Order;
 import site.leesoyeon.probabilityrewardsystem.order.exception.OrderException;
 import site.leesoyeon.probabilityrewardsystem.order.repository.OrderRepository;
+import site.leesoyeon.probabilityrewardsystem.shipping.dto.ShippingInfo;
 import site.leesoyeon.probabilityrewardsystem.shipping.dto.ShippingStatusDto;
 import site.leesoyeon.probabilityrewardsystem.shipping.entity.Shipping;
 import site.leesoyeon.probabilityrewardsystem.shipping.exception.ShippingException;
@@ -30,7 +31,7 @@ public class ShippingService {
 
     @Transactional
     public void updateShippingStatus(ShippingStatusDto request) {
-        Shipping shipping = findShippingById(request.shippingId());
+        Shipping shipping = findById(request.shippingId());
         shipping.updateStatus(request.status());
 
         Order order = orderRepository.findByShippingId(request.shippingId())
@@ -40,11 +41,22 @@ public class ShippingService {
         orderRepository.save(order);
     }
 
+    @Transactional
+    public Shipping saveShipping(UUID orderId, ShippingInfo shippingInfo) {
+        Shipping shipping = shippingMapper.toEntity(orderId, shippingInfo);
+        return shippingRepository.save(shipping);
+    }
+
+    @Transactional
+    public void deleteById(UUID shippingId) {
+        shippingRepository.deleteById(shippingId);
+    }
+
 //     ============================================
-//                  Private Methods
+//                 Protected Methods
 //     ============================================
 
-    private Shipping findShippingById(UUID shippingId) {
+    protected Shipping findById(UUID shippingId) {
         return shippingRepository.findById(shippingId).orElseThrow(() -> new ShippingException(NOT_FOUND_SHIPPING_ADDRESS));
     }
 }

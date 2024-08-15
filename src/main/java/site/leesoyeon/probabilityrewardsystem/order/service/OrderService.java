@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import site.leesoyeon.probabilityrewardsystem.order.dto.OrderDetailDto;
 import site.leesoyeon.probabilityrewardsystem.order.dto.OrderListDto;
 import site.leesoyeon.probabilityrewardsystem.order.dto.OrderSearchCondition;
@@ -26,22 +27,34 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
+    @Transactional(readOnly = true)
     public OrderDetailDto getOrderDetail(UUID orderId) {
         Order order = findOrderById(orderId);
         return orderMapper.toOrderDetailDto(order);
     }
 
+    @Transactional(readOnly = true)
     public OrderListDto getOrderList(@Valid OrderSearchCondition condition, Pageable pageable) {
         Page<Order> orderPage = orderRepository.findOrdersWithCondition(condition, pageable);
         Page<OrderDetailDto> orderDetailDtoPage = orderPage.map(orderMapper::toOrderDetailDto);
         return new OrderListDto(orderDetailDtoPage);
     }
 
+    @Transactional
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    @Transactional
+    public void deleteOrderById(UUID orderId) {
+        orderRepository.deleteById(orderId);
+    }
+
 //     ============================================
-//                  Private Methods
+//                 Protected Methods
 //     ============================================
 
-    private Order findOrderById(UUID orderId) {
+    protected Order findOrderById(UUID orderId) {
         return orderRepository.findById(orderId).orElseThrow(() -> new OrderException(NOT_FOUND_ORDER));
     }
 }
