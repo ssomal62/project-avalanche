@@ -15,6 +15,7 @@ import site.leesoyeon.probabilityrewardsystem.point.enums.ActivityType;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -65,6 +66,21 @@ public class PointTransactionRepositoryImpl implements PointTransactionRepositor
                 )
                 .orderBy(qPointTransaction.createdDate.desc())
                 .fetch();
+    }
+
+    @Override
+    public Optional<Integer> findLatestActiveBalanceByUserId(UUID userId) {
+        Integer balance = queryFactory
+                .select(qPointTransaction.balance)
+                .from(qPointTransaction)
+                .where(
+                        qPointTransaction.userId.eq(userId),
+                        qPointTransaction.isCancelled.eq(false)
+                )
+                .orderBy(qPointTransaction.createdDate.desc())
+                .fetchFirst();
+
+        return Optional.ofNullable(balance);
     }
 
 //  ============================================

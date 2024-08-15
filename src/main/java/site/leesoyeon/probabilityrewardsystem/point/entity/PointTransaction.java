@@ -38,6 +38,9 @@ public class PointTransaction extends BaseTimeEntity {
     @Column(name = "activity_type", nullable = false)
     private ActivityType activityType;
 
+    @Column(name = "order_id")
+    private UUID orderId;
+
     @Column(name = "product_id")
     private UUID productId;
 
@@ -71,5 +74,9 @@ public class PointTransaction extends BaseTimeEntity {
 
     public void updateExpiryDate(LocalDateTime expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public void updateProductId(UUID productId) {
+        this.productId = productId;
     }
 }
