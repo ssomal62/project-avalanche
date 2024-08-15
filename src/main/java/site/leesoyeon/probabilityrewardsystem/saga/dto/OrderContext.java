@@ -1,8 +1,10 @@
 package site.leesoyeon.probabilityrewardsystem.saga.dto;
 
 import lombok.Builder;
-import site.leesoyeon.probabilityrewardsystem.order.dto.OrderItem;
 import site.leesoyeon.probabilityrewardsystem.order.enums.OrderStatus;
+import site.leesoyeon.probabilityrewardsystem.point.domain.PointTransactionInfo;
+import site.leesoyeon.probabilityrewardsystem.point.entity.PointTransaction;
+import site.leesoyeon.probabilityrewardsystem.product.domain.ProductInfo;
 import site.leesoyeon.probabilityrewardsystem.saga.state.SagaState;
 import site.leesoyeon.probabilityrewardsystem.shipping.dto.ShippingInfo;
 
@@ -40,12 +42,18 @@ public record OrderContext(
         UUID userId,
         UUID orderId,
         OrderStatus orderStatus,
-        Integer usedPoint,
-        OrderItem orderItem,
+        Integer quantity,
+        PointTransactionInfo transactionInfo,
+        ProductInfo productInfo,
         ShippingInfo shippingInfo,
-        LocalDateTime createdAt,
+        LocalDateTime createdDate,
         SagaState state,
-        boolean outOfStock,
+
+        boolean pointStepCompleted,
+        boolean inventoryStepCompleted,
+        boolean orderStepCompleted,
+        boolean shippingStepCompleted,
+
         boolean success,
         String errorMessage
 ) {
@@ -57,7 +65,7 @@ public record OrderContext(
         return this.toBuilder()
                 .success(true)
                 .state(SagaState.COMPLETED)
-                .createdAt(LocalDateTime.now())
+                .createdDate(LocalDateTime.now())
                 .build();
     }
 
@@ -82,7 +90,66 @@ public record OrderContext(
         return !this.success;
     }
 
-    // ====== 주문 관리 메서드 ======
+    //===================================
+    //          포인트 관리 메서드
+    //===================================
+
+    // 포인트 차감 성공 시 호출
+    public OrderContext pointDeducted(PointTransaction transaction) {
+        PointTransactionInfo updatedTransactionInfo = this.transactionInfo().toBuilder()
+                .transactionId(transaction.getTransactionId())
+                .description(transaction.getDescription())
+                .build();
+
+        return this.toBuilder()
+                .transactionInfo(updatedTransactionInfo)
+                .state(SagaState.POINT_DEDUCTED)
+                .pointStepCompleted(true)
+                .success(true)
+                .build();
+    }
+
+    // 포인트 환불 시 호출
+    public OrderContext pointRefunded() {
+        return this.toBuilder()
+                .transactionInfo(null)
+                .pointStepCompleted(false)
+                .build();
+    }
+
+    //===================================
+    //           재고 관리 메서드
+    //===================================
+
+    // 재고 차감 성공 시 호출
+    public OrderContext inventoryDeducted() {
+        return this.toBuilder()
+                .state(SagaState.INVENTORY_DEDUCTED)
+                .inventoryStepCompleted(true)
+                .success(true)
+                .build();
+    }
+
+    // 재고부족으로 작업이 중단될 때 호출
+    public OrderContext inventoryDepleted(String errorMessage) {
+        return this.toBuilder()
+                .state(SagaState.INVENTORY_DEPLETED)
+                .success(false)
+                .inventoryStepCompleted(false)
+                .errorMessage(errorMessage)
+                .build();
+    }
+
+    // 재고 복구 시 호출
+    public OrderContext inventoryRefunded() {
+        return this.toBuilder()
+                .inventoryStepCompleted(false)
+                .build();
+    }
+
+    //===================================
+    //           주문 관리 메서드
+    //===================================
 
     // 주문 생성 시 호출
     public OrderContext orderCreated(UUID orderId) {
@@ -90,6 +157,7 @@ public record OrderContext(
                 .orderId(orderId)
                 .orderStatus(OrderStatus.CREATED)
                 .state(SagaState.ORDER_CREATED)
+                .orderStepCompleted(true)
                 .success(true)
                 .build();
     }
@@ -108,38 +176,15 @@ public record OrderContext(
         return this.toBuilder()
                 .orderId(null)
                 .orderStatus(OrderStatus.CANCELLED)
-                .success(true)
-                .build();
-    }
-
-    // ====== 재고 관리 메서드 ======
-
-    // 재고 차감 성공 시 호출
-    public OrderContext inventoryDeducted() {
-        return this.toBuilder()
-                .state(SagaState.INVENTORY_DEDUCTED)
-                .success(true)
-                .build();
-    }
-
-    // 재고부족으로 작업이 중단될 때 호출
-    public OrderContext inventoryDepleted(String errorMessage) {
-        return this.toBuilder()
-                .state(SagaState.INVENTORY_DEPLETED)
-                .outOfStock(true)
-                .success(false)
-                .errorMessage(errorMessage)
-                .build();
-    }
-
-    // 재고 복구 시 호출
-    public OrderContext inventoryRefunded() {
-        return this.toBuilder()
                 .state(SagaState.COMPENSATION_COMPLETED)
+                .orderStepCompleted(false)
+                .success(true)
                 .build();
     }
 
-    // ====== 배송 관리 메서드 ======
+    //===================================
+    //           배송 관리 메서드
+    //===================================
 
     // 배송 생성 시 호출
     public OrderContext shippingCreated(UUID shippingId) {
@@ -150,6 +195,7 @@ public record OrderContext(
         return this.toBuilder()
                 .state(SagaState.SHIPPING_CREATED)
                 .shippingInfo(updatedShippingInfo)
+                .shippingStepCompleted(true)
                 .build();
     }
 
@@ -157,6 +203,7 @@ public record OrderContext(
     public OrderContext shippingCancelled() {
         return this.toBuilder()
                 .shippingInfo(null)
+                .shippingStepCompleted(false)
                 .build();
     }
 
