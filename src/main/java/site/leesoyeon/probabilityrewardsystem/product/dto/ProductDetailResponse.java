@@ -14,7 +14,7 @@ public record ProductDetailResponse(
         ProductStatus status,
         BigDecimal price,
         String categoryName,
-        Integer quantity,
+        Integer stock,
         String imageUrl,
         Double probabilityMultiplier,
         double effectiveDropRate

@@ -1,7 +1,10 @@
 package site.leesoyeon.probabilityrewardsystem.product.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 import site.leesoyeon.probabilityrewardsystem.common.BaseTimeEntity;
 import site.leesoyeon.probabilityrewardsystem.product.enums.ProductStatus;
@@ -44,7 +47,7 @@ public class Product extends BaseTimeEntity {
     private String categoryName;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private Integer stock;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -52,30 +55,9 @@ public class Product extends BaseTimeEntity {
     @Column(name = "probability_multiplier")
     private Double probabilityMultiplier;
 
-    @Builder
-    public Product(String name, String description, Rarity rarity, BigDecimal price,
-                   String categoryName, Integer quantity, String imageUrl, Double probabilityMultiplier) {
-        this.name = name;
-        this.description = description;
-        this.rarity = rarity;
-        this.price = price;
-        this.categoryName = categoryName;
-        this.quantity = quantity;
-        this.imageUrl = imageUrl;
-        this.probabilityMultiplier = probabilityMultiplier;
-    }
-
-    public void update(String name, String description, Rarity rarity, BigDecimal price,
-                       String categoryName, Integer quantity, String imageUrl, Double probabilityMultiplier) {
-        this.name = name;
-        this.description = description;
-        this.rarity = rarity;
-        this.price = price;
-        this.categoryName = categoryName;
-        this.quantity = quantity;
-        this.imageUrl = imageUrl;
-        this.probabilityMultiplier = probabilityMultiplier;
-    }
+    @Version
+    @Column(nullable = false)
+    private Long version;
 
     public double getEffectiveDropRate() {
         double baseRate = rarity.getBaseDropRate();
@@ -85,4 +67,16 @@ public class Product extends BaseTimeEntity {
     public void updateStatus(ProductStatus status) {
         this.status = status;
     }
+
+    public void increaseStock(int quantity) {
+        this.stock += quantity;
+    }
+
+    public void reduceStock(int quantity) {
+        if (this.stock < quantity) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        this.stock -= quantity;
+    }
+
 }

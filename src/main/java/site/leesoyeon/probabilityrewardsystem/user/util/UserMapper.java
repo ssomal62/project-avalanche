@@ -17,6 +17,7 @@ public interface UserMapper {
     @Mapping(target = "emailVerified", constant = "false")
     @Mapping(target = "role", expression = "java(UserRole.ROLE_CUSTOMER)")
     @Mapping(target = "status", expression = "java(UserStatus.PENDING)")
+    @Mapping(target = "userId", ignore = true)
     User toUser(UserRegistrationDto signupDto);
 
 }
