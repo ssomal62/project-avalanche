@@ -17,8 +17,7 @@ public interface OrderMapper {
     @Mapping(target = "orderId", ignore = true)
     @Mapping(target = "shippingId", ignore = true)
     @Mapping(target = "status", constant = "CREATED")
-    @Mapping(source = "orderItem.productId", target = "productId")
-    @Mapping(source = "orderItem.quantity", target = "quantity")
+    @Mapping(source = "productInfo.productId", target = "productId")
     Order toEntity(OrderContext context);
 
     OrderDetailDto toOrderDetailDto(Order order);
