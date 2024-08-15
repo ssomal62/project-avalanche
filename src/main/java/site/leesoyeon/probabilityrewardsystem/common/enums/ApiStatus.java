@@ -30,6 +30,8 @@ public enum ApiStatus {
     DEFAULT_ADDRESS_ALREADY_EXISTS(400, "DAAE", "이미 등록된 기본 주소가 있습니다."),
     SAME_AS_OLD_PASSWORD(400, "SAOP", "새 비밀번호는 기존 비밀번호와 동일할 수 없습니다."),
     CLIENT_ID_NULL_OR_EMPTY(400, "CINOE", "클라이언트 ID는 null이거나 비어 있을 수 없습니다."),
+    INSUFFICIENT_POINTS(400, "IP", "포인트가 부족합니다."),
+    INVALID_POINT_AMOUNT(400, "IPA", "유효하지 않은 포인트 금액입니다."),
 
     // 401 - Unauthorized : 비인증(인증 수단이 없음)
     SIGN_IN_FAIL(401, "SF", "로그인 실패하였습니다."),
@@ -57,6 +59,7 @@ public enum ApiStatus {
     NO_PERMISSION(403, "NP", "권한이 없습니다."),
 
     // 404 - Not Found : 잘못된 리소스 접근
+    NOT_FOUND_POINT_HISTORY(404, "NFPH", "포인트 내역을 찾을 수 없습니다."),
     NOT_FOUND_USER(404, "NFA", "존재하지 않는 계정입니다."),
     NOT_FOUND_POST(404, "NFP", "게시글이 존재하지 않습니다."),
     NOT_FOUND_ORDER(404, "NFP", "주문정보가 존재하지 않습니다."),
@@ -74,6 +77,7 @@ public enum ApiStatus {
     LOCAL_ACCOUNT_ALREADY_EXIST(409, "LAE", "이미 등록된 계정입니다."),
     DELETED_ACCOUNT(409, "DA", "이미 탈퇴한 계정입니다."),
     NOT_ENOUGH_STOCK(409, "NES", "재고가 부족합니다."),
+    POINT_TRANSACTION_FAILED(409, "PTF", "포인트 거래 처리에 실패했습니다."),
 
     // 413 - Payload Too Large
     TOO_MANY_FILES(413, "TMF", "파일은 최대 3개만 업로드 할 수 있습니다."),
@@ -92,6 +96,7 @@ public enum ApiStatus {
     FAILED_HTTP_ACTION(500, "FHA", "HTTP 요청 실패"),
     EMAIL_SEND_FAILURE(500, "ESF", "이메일 전송 중 오류가 발생했습니다."),
     EMAIL_VERIFICATION_FAILURE(500, "EVF", "이메일 인증 중 오류가 발생했습니다."),
+    POINT_SYSTEM_ERROR(500, "PSE", "포인트 시스템 오류가 발생했습니다."),
     SOCKET_TIMEOUT(500, "STO", "소켓 타임아웃 오류로 인해 이메일 전송에 실패했습니다.");
 
     private final int statusCode;
