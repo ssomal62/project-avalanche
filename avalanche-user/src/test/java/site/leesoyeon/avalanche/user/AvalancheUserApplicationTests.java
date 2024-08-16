@@ -1,10 +1,10 @@
-package site.leesoyeon.probabilityrewardsystem;
+package site.leesoyeon.avalanche.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProjectAvalancheApplicationTests {
+class AvalancheUserApplicationTests {
 
     @Test
     void contextLoads() {
