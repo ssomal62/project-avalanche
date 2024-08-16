@@ -1,0 +1,10 @@
+rootProject.name = 'ProjectAvalanche'
+
+include 'avalanche-api'
+include 'avalanche-auth'
+include 'avalanche-eureka'
+include 'avalanche-order'
+include 'avalanche-point'
+include 'avalanche-product'
+include 'avalanche-shipping'
+include 'avalanche-user'
