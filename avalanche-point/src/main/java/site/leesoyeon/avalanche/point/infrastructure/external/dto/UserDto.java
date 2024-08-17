@@ -1,4 +1,4 @@
-package site.leesoyeon.avalanche.point.client.dto;
+package site.leesoyeon.avalanche.point.infrastructure.external.dto;
 
 import java.util.UUID;
 

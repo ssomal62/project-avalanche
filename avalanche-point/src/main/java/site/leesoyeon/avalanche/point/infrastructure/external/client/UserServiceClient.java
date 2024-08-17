@@ -1,8 +1,8 @@
-package site.leesoyeon.avalanche.point.client;
+package site.leesoyeon.avalanche.point.infrastructure.external.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
-import site.leesoyeon.avalanche.point.client.dto.UserDto;
+import site.leesoyeon.avalanche.point.infrastructure.external.dto.UserDto;
 
 
 import java.util.UUID;
