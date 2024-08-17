@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableFeignClients(basePackages = "site.leesoyeon.avalanche.point.client")
+@EnableFeignClients(basePackages = "site.leesoyeon.avalanche.point.infrastructure.external.client")
 public class AvalanchePointApplication {
 
     public static void main(String[] args) {
