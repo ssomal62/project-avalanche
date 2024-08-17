@@ -1,4 +1,4 @@
-package site.leesoyeon.avalanche.point.shared.api;
+package site.leesoyeon.avalanche.shipping.shared.api;
 
 import lombok.Getter;
 
