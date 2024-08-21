@@ -1,7 +1,10 @@
-package site.leesoyeon.avalanche.auth.client.dto;
+package site.leesoyeon.avalanche.user.domain.model;
+
+import lombok.Builder;
 
 import java.util.UUID;
 
+@Builder(toBuilder = true)
 public record UserDto(
         UUID userId,
         String email,
