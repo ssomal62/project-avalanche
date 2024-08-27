@@ -4,16 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.leesoyeon.avalanche.product.shared.api.ApiStatus;
+import site.leesoyeon.avalanche.product.application.util.ProductMapper;
+import site.leesoyeon.avalanche.product.domain.model.Product;
+import site.leesoyeon.avalanche.product.infrastructure.exception.ProductException;
+import site.leesoyeon.avalanche.product.infrastructure.persistence.repository.ProductRepository;
 import site.leesoyeon.avalanche.product.presentation.dto.ProductCreateRequest;
 import site.leesoyeon.avalanche.product.presentation.dto.ProductDetailResponse;
 import site.leesoyeon.avalanche.product.presentation.dto.ProductListResponse;
 import site.leesoyeon.avalanche.product.presentation.dto.ProductUpdateRequest;
-import site.leesoyeon.avalanche.product.domain.model.Product;
+import site.leesoyeon.avalanche.product.shared.api.ApiStatus;
 import site.leesoyeon.avalanche.product.shared.enums.ProductStatus;
-import site.leesoyeon.avalanche.product.infrastructure.exception.ProductException;
-import site.leesoyeon.avalanche.product.infrastructure.persistence.repository.ProductRepository;
-import site.leesoyeon.avalanche.product.application.util.ProductMapper;
 
 import java.util.List;
 import java.util.UUID;
@@ -66,11 +66,13 @@ public class ProductService {
         productRepository.save(product);
     }
 
-//     ============================================
-//                 Protected Methods
-//     ============================================
-
-    protected Product findById(UUID id) {
+    @Transactional(readOnly = true)
+    public Product findById(UUID id) {
         return productRepository.findById(id).orElseThrow(() -> new ProductException(ApiStatus.NOT_FOUND_PRODUCT));
+    }
+
+    @Transactional
+    public int decreaseStock(UUID productId, Integer quantity) {
+        return productRepository.decreaseStock(productId, quantity);
     }
 }
