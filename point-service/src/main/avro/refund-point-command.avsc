@@ -1,0 +1,19 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.command",
+  "type": "record",
+  "name": "RefundPointCommand",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
+    {
+      "name": "pointId",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "int"
+    }
+  ]
+}
