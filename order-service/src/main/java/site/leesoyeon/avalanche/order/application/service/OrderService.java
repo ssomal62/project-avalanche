@@ -7,14 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.leesoyeon.avalanche.order.shared.api.ApiStatus;
+import site.leesoyeon.avalanche.order.application.util.OrderMapper;
+import site.leesoyeon.avalanche.order.domain.model.Order;
+import site.leesoyeon.avalanche.order.infrastructure.exception.OrderException;
+import site.leesoyeon.avalanche.order.infrastructure.persistence.repository.OrderRepository;
 import site.leesoyeon.avalanche.order.presentation.dto.OrderDetailDto;
 import site.leesoyeon.avalanche.order.presentation.dto.OrderListDto;
 import site.leesoyeon.avalanche.order.presentation.dto.OrderSearchCondition;
-import site.leesoyeon.avalanche.order.domain.model.Order;
-import site.leesoyeon.avalanche.order.infrastructure.exception.OrderException;
-import site.leesoyeon.avalanche.order.infrastructure.persistence.repository.OrderRepositoryImpl;
-import site.leesoyeon.avalanche.order.application.util.OrderMapper;
+import site.leesoyeon.avalanche.order.shared.api.ApiStatus;
 
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final OrderRepositoryImpl orderRepository;
+    private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
     @Transactional(readOnly = true)
@@ -39,7 +39,6 @@ public class OrderService {
         return new OrderListDto(orderDetailDtoPage);
     }
 
-    @Transactional
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
     }

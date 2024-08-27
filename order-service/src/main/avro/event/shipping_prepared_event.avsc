@@ -1,0 +1,23 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.event",
+  "type": "record",
+  "name": "ShippingPreparedEvent",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
+    {
+      "name": "shippingId",
+      "type": "string"
+    },
+    {
+      "name": "trackingNumber",
+      "type": "string"
+    },
+    {
+      "name": "isSuccess",
+      "type": "boolean"
+    }
+  ]
+}
