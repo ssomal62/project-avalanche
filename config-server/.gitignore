@@ -16,6 +16,8 @@ product-service.yml
 redis-common.yml
 shipping-service.yml
 user-service.yml
+kafka-common.yml
+redisson-config.yml
 
 ### STS ###
 .apt_generated
