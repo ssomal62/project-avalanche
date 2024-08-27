@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import site.leesoyeon.avalanche.shipping.infrastructure.external.dto.OrderContext;
-import site.leesoyeon.avalanche.shipping.presentation.dto.ShippingStatusDto;
+import site.leesoyeon.avalanche.avro.command.CancelShippingCommand;
+import site.leesoyeon.avalanche.avro.command.PrepareShippingCommand;
 import site.leesoyeon.avalanche.shipping.application.service.ShippingCreationService;
 import site.leesoyeon.avalanche.shipping.application.service.ShippingService;
+import site.leesoyeon.avalanche.shipping.presentation.dto.ShippingStatusDto;
 
 
 @RestController
@@ -19,13 +20,15 @@ public class ShippingController {
     private final ShippingCreationService shippingCreationService;
 
     @PostMapping("/create")
-    public ResponseEntity<OrderContext> createShipping(@RequestBody OrderContext context) {
-        return ResponseEntity.status(HttpStatus.OK).body(shippingCreationService.createShipping(context));
+    public ResponseEntity<Void> createShipping(@RequestBody PrepareShippingCommand command) {
+        shippingCreationService.createShipping(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping("/cancel")
-    public ResponseEntity<OrderContext> cancelShipping(@RequestBody OrderContext context) {
-        return ResponseEntity.status(HttpStatus.OK).body(shippingCreationService.cancelShipping(context));
+    public ResponseEntity<Void> cancelShipping(@RequestBody CancelShippingCommand command) {
+        shippingCreationService.cancelShipping(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping
