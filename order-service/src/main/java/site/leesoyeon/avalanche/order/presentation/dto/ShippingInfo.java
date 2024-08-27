@@ -1,12 +1,9 @@
-package site.leesoyeon.avalanche.order.infrastructure.external.dto;
+package site.leesoyeon.avalanche.order.presentation.dto;
 
 import lombok.Builder;
 
-import java.util.UUID;
-
 @Builder(toBuilder = true)
 public record ShippingInfo(
-        UUID shippingId,
         String recipientName,
         String recipientPhone,
         String address,
