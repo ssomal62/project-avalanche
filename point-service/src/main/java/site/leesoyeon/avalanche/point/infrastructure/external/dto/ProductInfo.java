@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public record ProductInfo(
         UUID productId,
-        String name
+        String productName,
+        Integer unitPrice
 ) {
 }

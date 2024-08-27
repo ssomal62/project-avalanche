@@ -1,0 +1,15 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.event",
+  "type": "record",
+  "name": "PointRefundedEvent",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
+    {
+      "name": "isRefundSuccess",
+      "type": "boolean"
+    }
+  ]
+}

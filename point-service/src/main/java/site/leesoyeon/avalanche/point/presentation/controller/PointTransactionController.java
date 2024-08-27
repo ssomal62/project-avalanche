@@ -7,13 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import site.leesoyeon.avalanche.point.infrastructure.external.dto.OrderContext;
+import site.leesoyeon.avalanche.avro.command.ApplyPointCommand;
+import site.leesoyeon.avalanche.avro.command.RefundPointCommand;
+import site.leesoyeon.avalanche.point.application.service.PointDeductionService;
+import site.leesoyeon.avalanche.point.application.service.PointTransactionService;
 import site.leesoyeon.avalanche.point.presentation.dto.ManualPointAdjustmentRequest;
 import site.leesoyeon.avalanche.point.presentation.dto.PointTransactionDetailDto;
 import site.leesoyeon.avalanche.point.presentation.dto.PointTransactionListDto;
-import site.leesoyeon.avalanche.point.application.service.PointDeductionService;
-import site.leesoyeon.avalanche.point.application.service.PointTransactionService;
-
 
 import java.util.UUID;
 
@@ -26,13 +26,15 @@ public class PointTransactionController {
     private final PointDeductionService pointDeductionService;
 
     @PostMapping("/deduct")
-    public ResponseEntity<OrderContext> deductPoints(@RequestBody OrderContext context) {
-        return ResponseEntity.status(HttpStatus.OK).body(pointDeductionService.deductPoints(context));
+    public ResponseEntity<Void> deductPoints(@RequestBody ApplyPointCommand command) {
+        pointDeductionService.deductPoints(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping("/refund")
-    public ResponseEntity<OrderContext> refundPoints(@RequestBody OrderContext context) {
-        return ResponseEntity.status(HttpStatus.OK).body(pointDeductionService.refundPoints(context));
+    public ResponseEntity<Void> refundPoints(@RequestBody RefundPointCommand command) {
+        pointDeductionService.refundPoints(command);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     /**

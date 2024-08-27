@@ -6,17 +6,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.leesoyeon.avalanche.point.infrastructure.external.dto.OrderContext;
-import site.leesoyeon.avalanche.point.shared.api.ApiStatus;
+import site.leesoyeon.avalanche.avro.command.ApplyPointCommand;
+import site.leesoyeon.avalanche.point.application.util.PointTransactionMapper;
+import site.leesoyeon.avalanche.point.domain.model.PointTransaction;
+import site.leesoyeon.avalanche.point.infrastructure.exception.PointTransactionException;
+import site.leesoyeon.avalanche.point.infrastructure.presentation.repository.PointTransactionRepository;
 import site.leesoyeon.avalanche.point.presentation.dto.ManualPointAdjustmentRequest;
 import site.leesoyeon.avalanche.point.presentation.dto.PointTransactionDetailDto;
 import site.leesoyeon.avalanche.point.presentation.dto.PointTransactionListDto;
 import site.leesoyeon.avalanche.point.presentation.dto.PointTransactionSummaryDto;
-import site.leesoyeon.avalanche.point.domain.model.PointTransaction;
+import site.leesoyeon.avalanche.point.shared.api.ApiStatus;
 import site.leesoyeon.avalanche.point.shared.enums.ActivityType;
-import site.leesoyeon.avalanche.point.infrastructure.exception.PointTransactionException;
-import site.leesoyeon.avalanche.point.infrastructure.presentation.repository.PointTransactionRepository;
-import site.leesoyeon.avalanche.point.application.util.PointTransactionMapper;
 
 import java.util.UUID;
 
@@ -41,8 +41,8 @@ public class PointTransactionService {
     }
 
     @Transactional
-    public PointTransaction adjustPoints(OrderContext orderContext, Integer balance) {
-        PointTransaction pointTransaction = pointTransactionMapper.toPointTransaction(orderContext, balance);
+    public PointTransaction adjustPoints(ApplyPointCommand command, Integer balance) {
+        PointTransaction pointTransaction = pointTransactionMapper.toPointTransaction(command, balance);
         return pointTransactionRepository.save(pointTransaction);
     }
 
@@ -97,11 +97,12 @@ public class PointTransactionService {
                 .orElseThrow(() -> new PointTransactionException(ApiStatus.NOT_FOUND_POINT_HISTORY));
     }
 
-    protected void deleteById(UUID transactionId) {
-        pointTransactionRepository.deleteById(transactionId);
-    }
-
     protected Integer getLastBalance(UUID userId) {
         return pointTransactionRepository.findLatestActiveBalanceByUserId(userId).orElse(0);
+    }
+
+    public PointTransaction findByOrderIdAndNotCancelled(UUID orderId) {
+        return pointTransactionRepository.findByOrderIdAndIsCancelledFalse(orderId)
+                .orElse(null);
     }
 }
