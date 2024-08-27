@@ -4,16 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import site.leesoyeon.avalanche.shipping.infrastructure.external.client.OrderServiceClient;
-import site.leesoyeon.avalanche.shipping.infrastructure.external.dto.OrderDto;
-import site.leesoyeon.avalanche.shipping.shared.api.ApiStatus;
-import site.leesoyeon.avalanche.shipping.domain.model.ShippingInfo;
-import site.leesoyeon.avalanche.shipping.presentation.dto.ShippingStatusDto;
+import site.leesoyeon.avalanche.avro.command.ShippingData;
+import site.leesoyeon.avalanche.shipping.application.util.ShippingMapper;
 import site.leesoyeon.avalanche.shipping.domain.model.Shipping;
 import site.leesoyeon.avalanche.shipping.infrastructure.exception.ShippingException;
+import site.leesoyeon.avalanche.shipping.infrastructure.external.client.OrderServiceClient;
+import site.leesoyeon.avalanche.shipping.infrastructure.external.dto.OrderDto;
 import site.leesoyeon.avalanche.shipping.infrastructure.persistence.repository.ShippingRepository;
-import site.leesoyeon.avalanche.shipping.application.util.ShippingMapper;
+import site.leesoyeon.avalanche.shipping.presentation.dto.ShippingStatusDto;
+import site.leesoyeon.avalanche.shipping.shared.api.ApiStatus;
 
 import java.util.UUID;
 
@@ -43,8 +42,8 @@ public class ShippingService {
     }
 
     @Transactional
-    public Shipping saveShipping(UUID orderId, ShippingInfo shippingInfo) {
-        Shipping shipping = shippingMapper.toEntity(orderId, shippingInfo);
+    public Shipping saveShipping(UUID orderId, ShippingData shippingData) {
+        Shipping shipping = shippingMapper.toEntity(orderId, shippingData);
         return shippingRepository.save(shipping);
     }
 
@@ -58,6 +57,10 @@ public class ShippingService {
 //     ============================================
 
     protected Shipping findById(UUID shippingId) {
-        return shippingRepository.findById(shippingId).orElseThrow(() -> new ShippingException(ApiStatus.NOT_FOUND_ORDER));
+        return shippingRepository.findById(shippingId).orElseThrow(() -> new ShippingException(ApiStatus.NOT_FOUND_SHIPPING_ADDRESS));
+    }
+
+    public Shipping findByOrderId(UUID orderId) {
+        return shippingRepository.findByOrderId(orderId).orElseThrow(() -> new ShippingException(ApiStatus.NOT_FOUND_SHIPPING_ADDRESS));
     }
 }
