@@ -1,0 +1,15 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.command",
+  "type": "record",
+  "name": "CancelShippingCommand",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
+    {
+      "name": "shippingId",
+      "type": "string"
+    }
+  ]
+}
