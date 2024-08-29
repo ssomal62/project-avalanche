@@ -68,6 +68,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:testcontainers:1.19.3'
     testImplementation 'org.testcontainers:junit-jupiter:1.19.3'
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-config'
 }
 
 avro {
@@ -97,6 +98,15 @@ tasks.named('compileJava') {
 }
 
 tasks.named('test') {
-    enabled = false
     useJUnitPlatform()
+}
+
+test {
+    useJUnitPlatform()
+    jvmArgs '-XX:+EnableDynamicAgentLoading'
+    testLogging {
+        events "started", "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = true
+    }
 }
