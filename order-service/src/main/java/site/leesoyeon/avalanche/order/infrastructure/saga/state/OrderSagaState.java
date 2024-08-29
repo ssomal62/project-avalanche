@@ -1,15 +1,17 @@
-package site.leesoyeon.avalanche.order.infrastructure.saga;
+package site.leesoyeon.avalanche.order.infrastructure.saga.state;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.leesoyeon.avalanche.order.presentation.dto.ProductInfo;
-import site.leesoyeon.avalanche.order.presentation.dto.ShippingInfo;
+import site.leesoyeon.avalanche.order.domain.model.Order;
 import site.leesoyeon.avalanche.order.infrastructure.saga.enums.CommandStatus;
 import site.leesoyeon.avalanche.order.infrastructure.saga.enums.CommandType;
 import site.leesoyeon.avalanche.order.infrastructure.saga.enums.OrderSagaStatus;
+import site.leesoyeon.avalanche.order.presentation.dto.OrderRequest;
+import site.leesoyeon.avalanche.order.presentation.dto.ProductInfo;
+import site.leesoyeon.avalanche.order.presentation.dto.ShippingInfo;
 
 import java.time.Instant;
 import java.util.EnumMap;
@@ -46,17 +48,29 @@ public class OrderSagaState {
     @Builder.Default
     private Map<CommandType, CommandStatus> compensationStatuses = new EnumMap<>(CommandType.class);
 
+    public static OrderSagaState createInitialState(Order order, OrderRequest request) {
+        return OrderSagaState.builder()
+                .orderId(order.getOrderId())
+                .userId(order.getUserId())
+                .quantity(request.quantity())
+                .amount(request.amount())
+                .activityType(request.activityType())
+                .productInfo(request.productInfo())
+                .shippingInfo(request.shippingInfo())
+                .status(OrderSagaStatus.STARTED)
+                .build();
+    }
 
-    boolean hasFailedCommands() {
+    public boolean hasFailedCommands() {
         return commandStatuses.values().stream()
                 .anyMatch(status -> status == CommandStatus.FAILED);
     }
 
-    boolean allCommandsResponded() {
+    public boolean allCommandsResponded() {
         return this.getCommandStatuses().size() >= CommandType.values().length - 1;
     }
 
-    boolean allCompensationsCompleted() {
+    public boolean allCompensationsCompleted() {
         long successfulCommands = this.getCommandStatuses().values().stream()
                 .filter(status -> status == CommandStatus.SUCCESS)
                 .count();

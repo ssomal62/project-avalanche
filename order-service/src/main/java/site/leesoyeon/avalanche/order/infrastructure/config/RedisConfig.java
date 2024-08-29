@@ -9,7 +9,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import site.leesoyeon.avalanche.order.infrastructure.saga.OrderSagaState;
+import site.leesoyeon.avalanche.order.infrastructure.saga.state.OrderSagaState;
 
 @Configuration
 public class RedisConfig {
