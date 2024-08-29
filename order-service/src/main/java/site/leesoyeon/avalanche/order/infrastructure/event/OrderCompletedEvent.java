@@ -1,4 +1,4 @@
-package site.leesoyeon.avalanche.order.infrastructure.saga.event;
+package site.leesoyeon.avalanche.order.infrastructure.event;
 
 import java.util.UUID;
 
