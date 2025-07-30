@@ -1,0 +1,15 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.event",
+  "type": "record",
+  "name": "ShippingCancelledEvent",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
+    {
+      "name": "isCancelSuccess",
+      "type": "boolean"
+    }
+  ]
+}

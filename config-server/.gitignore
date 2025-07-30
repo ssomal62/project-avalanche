@@ -5,10 +5,19 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-application.yml
-.gitMessage
-.gitMessage.md
-.gitHub
+### EUREKA
+api-gateway.yml
+auth-service.yml
+jwt-common.yml
+order-service.yml
+point-service.yml
+postgresql-common.yml
+product-service.yml
+redis-common.yml
+shipping-service.yml
+user-service.yml
+kafka-common.yml
+redisson-config.yml
 
 ### STS ###
 .apt_generated

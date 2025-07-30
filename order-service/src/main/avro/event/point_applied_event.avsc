@@ -1,0 +1,20 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.event",
+  "type": "record",
+  "name": "PointAppliedEvent",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
+    {
+      "name": "pointId",
+      "type": ["null", "string"],
+      "default": null
+    },
+    {
+      "name": "isSuccess",
+      "type": "boolean"
+    }
+  ]
+}

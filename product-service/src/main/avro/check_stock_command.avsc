@@ -1,0 +1,10 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.command",
+  "type": "record",
+  "name": "CheckStockCommand",
+  "fields": [
+    {"name": "orderId", "type": "string"},
+    {"name": "productId", "type": "string"},
+    {"name": "quantity", "type": "int"}
+  ]
+}

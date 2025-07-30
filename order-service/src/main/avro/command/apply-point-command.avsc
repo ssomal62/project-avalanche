@@ -1,0 +1,27 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.command",
+  "type": "record",
+  "name": "ApplyPointCommand",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "activityType",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "int"
+    },
+    {
+      "name": "productName",
+      "type": "string"
+    }
+  ]
+}

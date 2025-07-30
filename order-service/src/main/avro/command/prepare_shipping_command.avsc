@@ -1,0 +1,40 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.command",
+  "type": "record",
+  "name": "PrepareShippingCommand",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
+    {
+      "name": "shippingData",
+      "type": {
+        "type": "record",
+        "name": "ShippingData",
+        "fields": [
+          {
+            "name": "recipientName",
+            "type": "string"
+          },
+          {
+            "name": "recipientPhone",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "type": "string"
+          },
+          {
+            "name": "detailedAddress",
+            "type": "string"
+          },
+          {
+            "name": "zipCode",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ]
+}

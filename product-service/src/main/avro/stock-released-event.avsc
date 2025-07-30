@@ -1,0 +1,15 @@
+{
+  "namespace": "site.leesoyeon.avalanche.avro.event",
+  "type": "record",
+  "name": "StockReleasedEvent",
+  "fields": [
+    {
+      "name": "orderId",
+      "type": "string"
+    },
+    {
+      "name": "isReleaseSuccess",
+      "type": "boolean"
+    }
+  ]
+}
